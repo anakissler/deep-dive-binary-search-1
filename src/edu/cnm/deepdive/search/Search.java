@@ -14,27 +14,17 @@ public class Search {
   private static final String PARSE_ERROR_MESSAGE_KEY = "parseErrorMessage";
   private static final String VALUE_ERROR_MESSAGE_KEY = "needleErrorMessage";
   private static final String READ_ERROR_MESSAGE_KEY = "haystackErrorMessage";
-  private static final String FOUND_MESSAGE_KEY = "foundMessage";
-  private static final String NOT_FOUND_MESSAGE_KEY = "notFoundMessage";
   
   public static void main(String[] args) {
     try {
-      ResourceBundle resources = getBundle(RESOURCE_BUNDLE_NAME);
-      int needle = getSearchValue(args, resources);
-      Integer[] haystack = readValues(resources);
-      int foundPosition = findValue(needle, haystack);
-      if (foundPosition >= 0) {
-        System.out.printf(resources.getString(FOUND_MESSAGE_KEY), 
-                          needle, foundPosition);
-      } else {
-        System.out.printf(resources.getString(NOT_FOUND_MESSAGE_KEY), 
-                          needle, ~foundPosition);        
-      }
-    } catch (Exception ex) {
-      // Do nothing.
+    ResourceBundle resources= getBundle(RESOURCE_BUNDLE_NAME);
+    int needle = getSearchValue(args, resources);
+    Integer[] haystack = readValues(resources);
+    System.out.println(findValue(needle,haystack));
+  } catch (Exception ex) {
+    
     }
   }
-
   private static int getSearchValue(String[] args, ResourceBundle resources) 
       throws IllegalArgumentException, NumberFormatException, ArrayIndexOutOfBoundsException {
     try {
@@ -88,7 +78,7 @@ public class Search {
   private static int findValue(int needle, Integer[] haystack, 
       int start, int end) {
     if (end <= start) {
-      return ~start;
+      return -(start + 1);
     }
     int midpoint = (start + end) >> 1;
     int test = haystack[midpoint];
